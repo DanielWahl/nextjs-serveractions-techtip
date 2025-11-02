@@ -1,0 +1,7 @@
+{
+    "arrowParens": "always",
+    "quoteProps": "consistent",
+    "tabWidth": 4,
+    "useTabs": true,
+    "trailingComma": "all"
+}
