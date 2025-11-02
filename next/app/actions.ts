@@ -1,5 +1,6 @@
 "use server";
 import { revalidateTag } from "next/cache";
+import { INewsResponse } from "@/types/types";
 
 export const fetchAction = async (
 	url: string,
@@ -77,7 +78,7 @@ export const fetchActionGET = async (
 
 	if (response) {
 		//console.log("fetchActionGET response", response);
-		revalidateTag(revalidateTagName, "max");
+		//revalidateTag(revalidateTagName, "max");
 		return response;
 	} else {
 		return null;
@@ -85,5 +86,21 @@ export const fetchActionGET = async (
 };
 
 export const getGlobalData = async () => {
+	console.log("fetching global data...");
 	return await fetchActionGET("/global", "global-data");
+};
+
+export const getAllNews = async (): Promise<INewsResponse> => {
+	return await fetchActionGET("/articles?populate=*", "news-data");
+};
+
+export const getArticleBySlug = async (slug: string) => {
+	const response = await fetchActionGET(
+		`/articles?filters[slug][$eq]=${slug}&populate=*`,
+		`article-${slug}`,
+	);
+	console.log("getArticleBySlug response: ", slug, response);
+	return response?.data && response?.data.length > 0
+		? response?.data?.[0]
+		: null;
 };
