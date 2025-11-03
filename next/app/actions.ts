@@ -104,3 +104,43 @@ export const getArticleBySlug = async (slug: string) => {
 		? response?.data?.[0]
 		: null;
 };
+
+export const createArticle = async (prevState:any, formData: FormData) => {
+	const title = formData.get("title")?.toString() as string;
+	const description = formData.get("description")?.toString() as string;
+	const slug = formData.get("slug")?.toString() as string;
+	const content = formData.get("content")?.toString() as string;
+
+	if (!title || !description || !slug) {
+		return {
+			error: true,
+			success: false,
+			message: "Title, description, and slug are required fields",
+		};
+	}
+
+	const articleData = {
+		title,
+		description,
+		slug,
+		blocks: content
+			? [
+					{
+						__component: "shared.rich-text",
+						body: content,
+					},
+			  ]
+			: [],
+		publishedAt: new Date().toISOString(),
+	};
+console.log("createArticle articleData: ", articleData);
+	const response = await fetchAction(
+		"/articles",
+		"POST",
+		articleData,
+		"news-data",
+	);
+	console.log("createArticle response: ", response);
+
+	return response;
+};

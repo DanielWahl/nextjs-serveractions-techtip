@@ -6,8 +6,6 @@ import { IArticle } from "@/types/types";
 export default async function Home() {
 	const globalData = await getGlobalData();
 	const news = await getAllNews();
-	console.log("Global Data on Home Page:", globalData);
-	console.log("News Data on Home Page:", news);
 
 	const newsItems: IArticle[] = news?.data || [];
 
@@ -16,10 +14,53 @@ export default async function Home() {
 			{/* Hero Section */}
 			<div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 px-4">
 				<div className="max-w-7xl mx-auto">
-					<h1 className="text-5xl font-bold mb-4">News & Updates</h1>
-					<p className="text-xl text-blue-100">
-						Stay updated with our latest news and articles
-					</p>
+					<div className="flex items-center justify-between">
+						<div>
+							<h1 className="text-5xl font-bold mb-4">News & Updates</h1>
+							<p className="text-xl text-blue-100">
+								Stay updated with our latest news and articles
+							</p>
+						</div>
+						<Link
+							href="/articles/create"
+							className="hidden md:inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+						>
+							<svg
+								className="w-5 h-5 mr-2"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M12 4v16m8-8H4"
+								/>
+							</svg>
+							Create Article
+						</Link>
+					</div>
+					{/* Mobile Create Button */}
+					<Link
+						href="/articles/create"
+						className="md:hidden mt-6 inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
+					>
+						<svg
+							className="w-5 h-5 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M12 4v16m8-8H4"
+							/>
+						</svg>
+						Create Article
+					</Link>
 				</div>
 			</div>
 
